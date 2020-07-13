@@ -151,7 +151,7 @@ function addEmployee() {
 
 // function to view department
 function viewDepartment() {
-  let query = "SELECT (id, name) FROM department";
+  let query = "SELECT id, name FROM department";
   connection.query(query, function (err, res) {
     if (err) throw err;
     console.log(res);
@@ -161,7 +161,7 @@ function viewDepartment() {
 
 // function to view roles
 function viewRoles() {
-  let query = "SELECT (id, title) FROM role";
+  let query = "SELECT id, title FROM role";
   connection.query(query, function (err, res) {
     if (err) throw err;
     console.log(res);
