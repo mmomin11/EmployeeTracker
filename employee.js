@@ -70,14 +70,84 @@ function initialQuestions() {
                   quit();
               }
         })
+};
+
+// function after Add department selection
+function addDepartment() {
+  inquirer
+    .prompt({
+      type: "input",
+      message: "What is the name of the department",
+      name: "depName"
+    })
+    .then(function(answer) {
+      connection.query("INSERT INTO department VALUES ?", answer.depName, function(err) {
+        if (err) throw err;
+        console.log("Your department has been added");
+      })
+    })
 }
 
-
-
-// function to view employees
-
+// function to add role
+function addRole() {
+  inquirer
+    .prompt([{
+      type: "input",
+      message: "What role needs to be added?",
+      name: "rolename"
+    },
+    {
+      type: "input",
+      message: "Approximate salary for this role?",
+      name: "salary"
+    },
+    {
+      type: "input",
+      message: "What is the department ID number?",
+      name: "deptnumber"
+    }
+  ])
+  .then (function(answer) {
+    connection.query("INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)", [answer.rolename, answer.salary, answer.deptnumber], function(err, res) {
+      if (err) throw err;
+      console.log(res);
+      initialQuestions();
+    })
+  })
+};
 
 // function to add employees that prompts first and last name of employee, then role, and then manager of employee. 
+function addEmployee() {
+    inquirer
+      .prompt([{
+        type: "input",
+        message: "What is the first name?",
+        name: "firstname"
+      },
+      {
+        type: "input",
+        message: "What is the last name?",
+        name: "lastname"
+      },
+      {
+        type: "input",
+        message: "What is the role ID number?",
+        name: "rolenumber"
+      },
+      {
+        type: "input",
+        message: "What is the manager ID number?",
+        name: "managernumber"
+      }
+    ])
+    .then (function(answer) {
+      connection.query("INSERT INTO role (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)", [answer.firstname, answer.lastname, answer.rolenumber, answer.managernumber], function(err, res) {
+        if (err) throw err;
+        console.log(res);
+        initialQuestions();
+      })
+    });
+};
 
 
 // function to delete employees which has a choice option. 
