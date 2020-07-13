@@ -141,7 +141,7 @@ function addEmployee() {
       }
     ])
     .then (function(answer) {
-      connection.query("INSERT INTO role (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)", [answer.firstname, answer.lastname, answer.rolenumber, answer.managernumber], function(err, res) {
+      connection.query("INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)", [answer.firstname, answer.lastname, answer.rolenumber, answer.managernumber], function(err, res) {
         if (err) throw err;
         console.log(res);
         initialQuestions();
@@ -181,3 +181,35 @@ function viewEmployees() {
 
 
 // function to delete employees which has a choice option. 
+function updateEmployee() {
+  connection.query("SELECT * FROM employee", function (err, results) {
+    if (err) throw err;
+  inquirer
+    .prompt([
+      {
+        type: "list",
+        choices: function() {
+          let choiceArray = [];
+          for (let i = 0; i < results.length; i++) {
+            choiceArray.push(results[i].first_name, results[i].last_name);
+          };
+          return choiceArray;
+        },
+        message: "Which employee would you like to update?",
+        name: "empupdate"
+      },
+      {
+        type: "input",
+        message: "What is the new role id?",
+        name: "updatefield"
+      }
+    ]).then(function(answer) {
+      connection.query("UPDATE employee SET role_id=? WHERE first_name=? AND last_name=?", [answer.updatefield, answer.empupdate.split(" ")], function(err, res) {
+        if (err) throw err;
+        console.log("Updated your role");
+        initialQuestions();
+      })
+    })
+  })
+};
+
