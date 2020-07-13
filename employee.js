@@ -149,5 +149,35 @@ function addEmployee() {
     });
 };
 
+// function to view department
+function viewDepartment() {
+  let query = "SELECT (id, name) FROM department";
+  connection.query(query, function (err, res) {
+    if (err) throw err;
+    console.log(res);
+    initialQuestions();
+  })
+}
+
+// function to view roles
+function viewRoles() {
+  let query = "SELECT (id, title) FROM role";
+  connection.query(query, function (err, res) {
+    if (err) throw err;
+    console.log(res);
+    initialQuestions();
+  })
+};
+
+// function to view employee
+function viewEmployees() {
+  let query = "SELECT * FROM employee";
+  connection.query(query, function (err, res) {
+    if (err) throw err;
+    console.log(res);
+    initialQuestions();
+  })
+};
+
 
 // function to delete employees which has a choice option. 
